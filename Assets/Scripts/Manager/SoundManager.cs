@@ -8,20 +8,20 @@ namespace MyAsset
     {
         [SerializeField] private float maxSoundValue;
 
-        public delegate void ValueChange();
+        public delegate void SoundFunc();
 
-        public ValueChange ValueChangeFunc;
+        public SoundFunc BGMFunc, SFXFunc, MSFunc;
 
-        private float baseSound;
 
-        public float BaseSound
+        private float bgmSound;
+
+        public float BGMSound
         {
-            get { return baseSound; }
-
+            get { return bgmSound; }
             private set
             {
-                baseSound = value;
-                ValueChangeFunc();
+                bgmSound = value;
+                BGMFunc();
             }
         }
 
@@ -30,11 +30,10 @@ namespace MyAsset
         public float MainSound
         {
             get { return mainSound; }
-
             private set
             {
                 mainSound = value;
-                ValueChangeFunc();
+                MSFunc();
             }
         }
 
@@ -42,13 +41,19 @@ namespace MyAsset
         public float EffectSound
         {
             get { return effectSound; }
-
             private set
             {
                 effectSound = value;
-                ValueChangeFunc();
+                SFXFunc();
             }
         }
+
+        protected override void Start()
+        {
+            // 사운드 함수 추가
+
+        }
+
 
 
 

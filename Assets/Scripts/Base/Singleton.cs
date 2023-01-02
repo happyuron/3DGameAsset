@@ -6,30 +6,36 @@ namespace MyAsset
 {
     public class Singleton<T> : MonoBehaviour where T : Singleton<T>
     {
-        public static T Instance { get; private set; }
+
+        private static T instance;
+        public static T Instance
+        {
+            get
+            {
+                if (instance == null) instance = FindObjectOfType<T>();
+                return instance;
+            }
+            private set { instance = value; }
+        }
 
         public bool dontDestroyOnLoad;
 
         protected virtual void Awake()
+        {
+            Init();
+        }
+
+        protected virtual void Init()
         {
             if (FindObjectsOfType<T>().Length > 1)
             {
                 Destroy(gameObject);
                 return;
             }
-            if (Instance == null)
-            {
-                Instance = GetComponent<T>();
-            }
             if (dontDestroyOnLoad)
             {
                 DontDestroyOnLoad(gameObject);
             }
-        }
-
-        protected virtual void Init()
-        {
-
         }
 
         protected virtual void Start()
